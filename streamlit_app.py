@@ -10,13 +10,12 @@ st.write("Todos los datos sobre los empleados en una aplicación.")
 file_path = "csv/employees.csv"  # Ruta al archivo CSV
 df_employees = pd.read_csv(file_path)  # Cargamos los datos del CSV en un DataFrame
 
-# Mostramos los datos del DataFrame en la interfaz de Streamlit
+# Mostramos
 df_employees
 
-# Creamos tres columnas para los controles interactivos
 color, nombre, sueldo = st.columns(3)
 
-# Selector de color para las barras del gráfico
+# Selector de color
 with color:
     color = st.color_picker("Elige un color para las barras", "#00f900")
 
@@ -24,30 +23,30 @@ with color:
 with nombre:
     nombre = st.toggle("Mostrar Nombre")
 
-# Checkbox para mostrar los sueldos directamente sobre las barras del gráfico
+# Checkbox para mostrar los sueldos
 with sueldo:
     sueldo = st.toggle("Mostrar sueldo en la barra")
 
-# Ordenamos el DataFrame por su índice (opcional, puede ayudar si los datos no están ordenados)
+# Ordenamos el DataFrame por su índice
 df_employees_sorted = df_employees.sort_index()
 
-# Creamos una figura para el gráfico de barras horizontales
+# Creamos una figura para el gráfico
 fig, ax = plt.subplots()
 
-# Dibujamos las barras con los nombres de los empleados en el eje Y y los sueldos en el eje X
+# Dibujamos las barras 
 bars = ax.barh(df_employees['full name'], df_employees['salary'], color=color)
 
-# Ocultamos los nombres en el eje Y si la opción correspondiente está desmarcada
+# Ocultamos los nombres en el eje Y 
 if not nombre:
     ax.set_yticklabels([''] * len(df_employees['full name']))  # Vacía las etiquetas del eje Y
 
-# Mostramos los sueldos sobre las barras si la opción está marcada
+# Mostramos los sueldos 
 if sueldo:
     for bar, salary in zip(bars, df_employees['salary']):  # Iteramos sobre las barras y los sueldos
         ax.text(
-            bar.get_width() + 50,  # Posición del texto (ligeramente a la derecha de la barra)
+            bar.get_width() + 50,  # Posición del texto 
             bar.get_y() + bar.get_height() / 2,  # Posición vertical centrada
-            f'{salary} €',  # Texto que muestra el sueldo con el símbolo €
+            f'{salary} €',  # Texto que muestra el sueldo
             va='center'  # Alineación vertical centrada
         )
 
@@ -55,8 +54,11 @@ if sueldo:
 ax.set_xlabel('')
 ax.set_ylabel('')
 
-# Ajustamos el límite del eje X (puede depender del rango de sueldos)
+# Ajustamos el límite del eje X
 ax.set_xlim(0, 4500)
 
-# Mostramos el gráfico en la aplicación Streamlit
+# Mostramos el gráfico
 st.pyplot(fig)
+
+st.write("Hecho por Oscar Bermudez Gallego")
+st.write("https://github.com/OscarBermudez38/Empleatronix")
